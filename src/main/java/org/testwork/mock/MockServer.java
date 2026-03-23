@@ -51,6 +51,14 @@ public class MockServer {
                 .setResponseCode(204));
     }
 
+    public void mockDeleteNonExistentUser() {
+        mockWebServer.enqueue(new MockResponse()
+                .setResponseCode(404)
+                .setBody(String.format(
+                        "{\"error\":\"USER_NOT_FOUND\",\"message\":\"Cannot delete user with - user does not exist\"}"))
+                .setHeader("Content-Type", "application/json"));
+    }
+
     public void mockCreateUserWithDuplicateName(String name) {
         mockWebServer.enqueue(new MockResponse()
                 .setResponseCode(400)
@@ -85,6 +93,26 @@ public class MockServer {
             case TEST3:
                 // Неуникальное имя
                 mockCreateUserWithDuplicateName(testData.getUserName());
+                break;
+
+            default:
+                throw new IllegalArgumentException("Unknown test data: " + testData);
+        }
+    }
+
+    public void mockDeleteForUserCreation(AddUserEnum testData) {
+        switch (testData) {
+            case TEST1:
+                mockDeleteUserSuccess();
+                break;
+
+            case TEST2:
+                // несуществующий  пользователь
+                mockDeleteNonExistentUser();
+                break;
+
+            case TEST3:
+                // Неуникальное имя, не будем  удалять, вообще ничего не будем делать
                 break;
 
             default:

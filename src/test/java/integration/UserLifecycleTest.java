@@ -47,7 +47,7 @@ public class UserLifecycleTest extends BaseIntegrationTest {
         assertEquals(user.getUserId(), driver.findElement(By.id("user-id")).getText());
 
         // удаление
-        mockServer.mockDeleteUserSuccess();
+        mockServer.mockDeleteForUserCreation(addUserEnum);
         Response deleteResponse = apiClient.deleteUser(user.getUserId());
         assertEquals(204, deleteResponse.getStatusCode());
     }
