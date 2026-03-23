@@ -1,11 +1,13 @@
 package integration;
 
 import io.restassured.response.Response;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testwork.data.generator.UserDataGenerator;
+import org.testwork.data.generator.enums.AddUserEnum;
 import org.testwork.models.User;
 
 import java.util.Map;
@@ -14,12 +16,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class UserLifecycleTest extends BaseIntegrationTest {
-    @Test
-    public void testUserLifecycle() {
+    @ParameterizedTest
+    @EnumSource(AddUserEnum.class)
+    public void testUserLifecycle(AddUserEnum addUserEnum) {
         //Генерим пользователя
         User user = UserDataGenerator.createUser();
 
-        mockServer.mockCreateUserSuccess(user.getUserId(), user.getUserName(), user.getUserEmail());
+        mockServer.setupMockForUserCreation(addUserEnum);
         Map<String, Object> userData = Map.of(
                 "name", user.getUserName(),
                 "email", user.getUserEmail()

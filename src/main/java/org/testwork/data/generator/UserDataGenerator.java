@@ -16,8 +16,17 @@ public class UserDataGenerator {
         return "user_" + generateRandomString( 5) + "@test.com";
     }
 
+    public static String generateInvalidEmail() {
+        return "user_" + generateRandomString( 5) + "test.com";
+    }
+
+
     public static String generateUniqueName() {
         return "User_" + generateRandomString(7);
+    }
+
+    public static String generateNotUniqueName() {
+        return "User_" + "NotUnique";
     }
 
     public static String generateUserId() {
