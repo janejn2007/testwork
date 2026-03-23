@@ -1,5 +1,6 @@
 package integration;
 
+import api.BaseApiTest;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,11 +13,10 @@ import org.testwork.mock.MockServer;
 import java.io.IOException;
 import java.time.Duration;
 
-public class BaseIntegrationTest {
+public class BaseIntegrationTest  extends BaseApiTest {
     protected WebDriver driver;
     protected WebDriverWait wait;
-    protected MockServer mockServer;
-    protected UserApiClient apiClient;
+
     protected String appUrl = "http://localhost:3000";
 
     @BeforeEach
